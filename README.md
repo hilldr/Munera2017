@@ -1,4 +1,4 @@
-Manipulation of a conserved BMP-HOX pathway promotes formation of human large intestinal organoids.
+**Manipulation of a conserved BMP-HOX pathway promotes formation of human large intestinal organoids.**
 
 Jorge O. Múnera<sup>1</sup>, Nambirajan Sundaram<sup>2</sup>, Carey Watson<sup>2</sup>, Scott A. Rankin<sup>1</sup>, Maxime Mahe<sup>2</sup>, Jefferson E. Vallance<sup>3</sup>, Noah F. Shroyer<sup>3</sup>, Katie L. Sinagoga<sup>1</sup>, Adrian Zarsozo-Lacoste<sup>1</sup>, Jonathan R. Hudson<sup>1</sup>, Jonathan C. Howell<sup>5</sup>, David Hill<sup>6</sup>, Praneet Chatuvedi<sup>1</sup>, Jason R. Spence<sup>6</sup>, John M. Shannon<sup>4</sup>, Aaron M. Zorn<sup>1</sup>, Michael Helmrath<sup>2</sup> and James M. Wells<sup>1,5*</sup>. 
 
@@ -167,7 +167,7 @@ fig1c <- qplot(x = PC1, y = PC2, data = scores) +
 print(fig1c)
 ```
 
-[](file:./RESULTS/PCA-Praneet.png)
+![](./RESULTS/PCA-Praneet.png)
 
 Figure 7
 --------
@@ -435,7 +435,7 @@ fig <- ggplot(data = df.sig,
 print(fig) 
 ```
 
-![](file:./RESULTS/BMP-NogginEGF-Si-Colon-figure.png)
+![](./RESULTS/BMP-NogginEGF-Si-Colon-figure.png)
 
 #### Principle component analysis
 
@@ -522,7 +522,7 @@ plot <- grid.arrange(pc1.2, pc2.3, pc1.3)
 print(plot)
 ```
 
-![](file:./RESULTS/Munera-revisions-PCAfigure.png)
+![](./RESULTS/Munera-revisions-PCAfigure.png)
 
 #### Venn Diagram
 
