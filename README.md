@@ -91,58 +91,77 @@ Figure 2J
 
 ### PCA (Praneet dataset)
 
-\#+begin~src~ R :session **R** :exports both :results graphics :file
-./RESULTS/PCA-Praneet.png :width 800 :height 800 :eval yes \#\# PCA
-analysis (Praneet data)
------------------------------------------------------- \#\# Load dataset
-from file df &lt;- readr::read~csv~(file =
-"./RESULTS/Genes~TPMmatrix~-Praneet.csv")
+``` {.r .rundoc-block rundoc-language="R" rundoc-session="*R*" rundoc-exports="both" rundoc-results="graphics" rundoc-file="./RESULTS/PCA-Praneet.png" rundoc-width="800" rundoc-height="800" rundoc-eval="yes"}
+## PCA analysis (Praneet data) ------------------------------------------------------
+## Load dataset from file
+df <- readr::read_csv(file = "./RESULTS/Genes_TPM_matrix-Praneet.csv")
 
-\#\# subset to columns with numeric values num.data &lt;-
-df\[,sapply(df,is.numeric)\] group &lt;- substr(colnames(num.data), 1,
-nchar(colnames(num.data))-1)
+## subset to columns with numeric values
+num.data <- df[,sapply(df,is.numeric)]
+group <- substr(colnames(num.data), 1, nchar(colnames(num.data))-1)
 
-\#\# calculate variance by row (gene) var &lt;- apply(num.data, 1, sd,
-na.rm=TRUE) \#\# adjust cut off according to variance percentile
-pca.data &lt;- num.data\[var &gt; quantile(var, 0.1) & var != 0,\] pca
-&lt;- prcomp(t(pca.data),scale = TRUE,center = TRUE) scores &lt;-
-data.frame(colnames(pca.data), pca\$x\[,1:ncol(pca\$x)\], group)
+## calculate variance by row (gene)
+var <- apply(num.data, 1, sd, na.rm=TRUE)
+## adjust cut off according to variance percentile
+pca.data <- num.data[var > quantile(var, 0.1) & var != 0,]
+pca <- prcomp(t(pca.data),scale = TRUE,center = TRUE)
+scores <- data.frame(colnames(pca.data), pca$x[,1:ncol(pca$x)], group)
 
-\#\# PCA plot \#\# function to format decimals as precentage percent
-&lt;- function(x, digits = 2, format = "f", ...) { paste0(formatC(100 \*
-x, format = format, digits = digits, ...), "%") }
+## PCA plot
+## function to format decimals as precentage
+percent <- function(x, digits = 2, format = "f", ...) {
+  paste0(formatC(100 * x, format = format, digits = digits, ...), "%")
+}
 
-\#\# plot theme library(ggplot2) \#\# Load standard theme
-----------------------------------------------------------
-library(ggplot2) library(grid) theme1 &lt;- theme(axis.text.x =
-element~text~(size = 24, angle = 0, hjust = 0.5, face = "bold"),
-axis.text.y = element~text~(size = 24, face = "bold", hjust = 1),
-legend.position = "none", legend.key = element~rect~(fill = "white"),
-panel.background = element~rect~(fill = "white"), plot.subtitle =
-element~text~(size = 26, hjust = 0.5, face = "bold"), panel.grid.major =
-element~blank~(), panel.grid.minor = element~blank~(), axis.title =
-element~text~(size = 32, face = "bold"), axis.title.y =
-element~text~(vjust = 1.5), axis.title.x = element~text~(vjust = -0.5),
-legend.title = element~blank~(), panel.border = element~rect~(fill = NA,
-color = "grey70", size = 1), plot.title = element~text~(size = 45, face
-= "bold", hjust = 0), legend.text = element~text~(size = 18, face =
-"bold"))
+## plot theme
+library(ggplot2)
+## Load standard theme ----------------------------------------------------------
+library(ggplot2)
+library(grid)
+theme1 <-  theme(axis.text.x = element_text(size = 24,
+                                            angle = 0,
+                                            hjust = 0.5,
+                                            face = "bold"),
+                 axis.text.y = element_text(size = 24,
+                                            face = "bold",
+                                            hjust = 1),
+                 legend.position = "none",
+         legend.key = element_rect(fill = "white"),
+                 panel.background = element_rect(fill = "white"),
+                 plot.subtitle = element_text(size = 26, hjust = 0.5, face = "bold"),
+                 panel.grid.major = element_blank(),
+                 panel.grid.minor = element_blank(),
+                 axis.title = element_text(size = 32,
+                                           face = "bold"),
+                 axis.title.y = element_text(vjust = 1.5),
+                 axis.title.x = element_text(vjust = -0.5),
+                 legend.title = element_blank(),
+         panel.border = element_rect(fill = NA,
+                                              color = "grey70",
+                                              size = 1),
+                 plot.title = element_text(size = 45,
+                                           face = "bold",
+                                             hjust = 0),
+                 legend.text = element_text(size = 18,
+                                            face = "bold"))
 
-library(ggplot2) library(RColorBrewer) fig1c &lt;- qplot(x = PC1, y =
-PC2, data = scores) +
 
-scale~fillbrewer~(palette = "Spectral") + geom~point~(shape = 21,
-aes(fill = group), size = 12) + theme1 + theme(legend.position="bottom",
-legend.background = element~rect~(colour = "white"), legend.key =
-element~rect~(color = "white",fill = "white"))+ coord~fixed~(ratio = 1)
-+ xlab(paste("PC1
-(",percent(round(summary(pca)\$importance\[2,1\],4)),")",sep = "")) +
-ylab(paste("PC2
-(",percent(round(summary(pca)\$importance\[2,2\],4)),")",sep = ""))
+library(ggplot2)
+library(RColorBrewer)
+fig1c <- qplot(x = PC1, y = PC2, data = scores) +  
+
+    scale_fill_brewer(palette = "Spectral") +
+    geom_point(shape = 21, aes(fill = group), size = 12) +
+    theme1 +
+    theme(legend.position="bottom",
+          legend.background = element_rect(colour = "white"),
+          legend.key = element_rect(color = "white",fill = "white"))+
+    coord_fixed(ratio = 1) +
+    xlab(paste("PC1 (",percent(round(summary(pca)$importance[2,1],4)),")",sep = "")) +
+    ylab(paste("PC2 (",percent(round(summary(pca)$importance[2,2],4)),")",sep = ""))
 
 print(fig1c)
-
-\#+end~src~
+```
 
 ![](file:./RESULTS/PCA-Praneet.png)
 
@@ -279,7 +298,7 @@ echo "Your Cufflinks run is complete" | mail -s "Cufflinks complete" $EMAIL
 
 ``` {.r .rundoc-block rundoc-language="R" rundoc-session="*R*" rundoc-results="silent" rundoc-exports="both" rundoc-eval="yes"}
 
-## BE SURE TO RUN 'install_dependencies.R' prior running this analysis script
+## BE SURE TO RUN './src/install_dependencies.R' prior running this analysis script
 ## to ensure that you have all the required software 
 
 ## Generate FPKM dataframe with Student's t-test results -----------------------
@@ -335,7 +354,7 @@ write.csv(df, file = "./RESULTS/Munera-revisions_fpkmtable_withStats.csv")
 
 #### Density plot
 
-``` {.r .rundoc-block rundoc-language="R" rundoc-session="*R*" rundoc-exports="both" rundoc-results="graphics" rundoc-file="./RESULTS/BMP-NogginEGF-Si-Colon-figure.png" rundoc-width="1000" rundoc-height="1000" rundoc-eval="yes" rundoc-tangle="expression_analysis.R"}
+``` {.r .rundoc-block rundoc-language="R" rundoc-session="*R*" rundoc-exports="both" rundoc-results="graphics" rundoc-file="./RESULTS/BMP-NogginEGF-Si-Colon-figure.png" rundoc-width="1000" rundoc-height="1000" rundoc-eval="yes" rundoc-tangle="./src/expression_analysis.R"}
 ## Density Plot ----------------------------------------------------------------
 library(ggplot2)
 library(grid)
@@ -621,203 +640,3 @@ fig <- grid.arrange(gTree(children=venn.plot),
 
 print(fig)
 ```
-
-#### GATA4 and SATB2 expression
-
-``` {.r .rundoc-block rundoc-language="R" rundoc-session="*R*" rundoc-exports="both" rundoc-results="graphics" rundoc-file="RESULTS/GATA4-SATB2-expression.png" rundoc-width="600" rundoc-height="800" rundoc-eval="yes"}
-library(SeqRetriever)
-library(magrittr)
-plot <- SeqDataframe(dir = "./RESULTS/Munera-revisions_normout") %>%
-    SeqGenes(gene.names =c("GATA4","SATB2")) %>%
-    SeqBoxplot(nrow = 1) %>% + scale_fill_brewer(palette = "Paired") %>% 
-    + theme1 %>%
-    + theme(legend.position = "none",
-            axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) %>%
-      print()
-```
-
-![](file:RESULTS/GATA4-SATB2-expression.png)
-
-##### Biplot
-
-\#+begin~src~ R :session **R** :exports both :results graphics :file
-RESULTS/Munera-revisions-PCA-biplot.png :width 1000 :height 1000 :eval
-yes
-
-library(plyr) library(scales) library(grid)
-
-nobs.factor &lt;- sqrt(nrow(pca\$x) - 1) d &lt;- pca\$sdev u &lt;-
-sweep(pca\$x, 2, 1 / (d \* nobs.factor), FUN = '\*') v &lt;-
-pca\$rotation
-
-choices &lt;- 1:2 choices &lt;- pmin(choices, ncol(u)) obs.scale &lt;- 1
-df.u &lt;- as.data.frame(sweep(u\[,choices\], 2,
-d\[choices\]^obs^.scale, FUN='\*'))
-
-var.scale &lt;-1 v &lt;- sweep(v, 2, d^var^.scale, FUN='\*') df.v &lt;-
-as.data.frame(v\[, choices\])
-
-names(df.u) &lt;- c('xvar', 'yvar') names(df.v) &lt;- names(df.u) df.u
-&lt;- df.u \* nobs.factor circle.prob &lt;- 0.69
-
-r &lt;- sqrt(qchisq(circle.prob, df = 2)) \*
-prod(colMeans(df.u^2^))^(1/4)^
-
-v.scale &lt;- rowSums(v^2^) df.v &lt;- r \* df.v / sqrt(max(v.scale))
-df.v\$varname &lt;- rownames(v)
-
-df.v\$angle &lt;- with(df.v, (180/pi) \* atan(yvar / xvar))
-varname.adjust = 0.5 df.v\$hjust = with(df.v, (1 - varname.adjust \*
-sign(xvar)) / 2) varname.size = 5
-
-\#\# pc.only &lt;- scores\[,sapply(scores,is.numeric)\] \#\# corr &lt;-
-as.data.frame(cor(t(num.data),pc.only)) \#\# top.cor2 &lt;-
-subset(corr,corr\$PC1 &gt; quantile(corr\$PC1,0.9999, na.rm=TRUE) |
-corr\$PC1 &lt; quantile(corr\$PC1,0.0001,na.rm=TRUE)) \#\# top.cor1
-&lt;- subset(corr,corr\$PC2 &gt; quantile(corr\$PC2,0.9999, na.rm=TRUE)
-| corr\$PC2 &lt; quantile(corr\$PC2,0.0001,na.rm=TRUE))
-
-list &lt;- which(rownames(df.v) %in% c("GATA4", "SATB2"))
-
-fig2a &lt;- qplot(x=PC2, y=PC3, data=scores) + theme1 + theme2 +
-theme(legend.position="right") +
-geom~point~(shape=21,aes(fill=factor(group)), size=18) +
-coord~fixed~(ratio = 1) + xlab(paste("PC2
-(",percent(round(summary(pca)\$importance\[2,2\],4)),")", sep = "")) +
-ylab(paste("PC3
-(",percent(round(summary(pca)\$importance\[2,3\],4)),")", sep = "")) +
-scale~fillbrewer~(palette = "Paired") + scale~colorbrewer~(palette =
-"Paired") + geom~segment~(data = df.v\[list,\], aes(x = 0, y = 0, xend =
-xvar, yend = yvar), arrow = arrow(length = unit(1, 'picas')), color =
-"black", \# c(muted('green'),muted('blue')), lwd `0.5) +
-          geom_text(data ` df.v\[list,\], aes(label = varname, x = xvar,
-y = yvar, angle = angle, hjust = hjust-0.5, vjust = c(0,1)), color =
-"black", \#c(muted('green'),muted('blue')), fontface = "bold", size = 8)
-
-print(fig2a)
-
-\#+end~src~
-
-![](file:RESULTS/Munera-revisions-PCA-biplot.png)
-
-##### PCA expression correlation
-
-\#+begin~src~ R :session **R** :exports both :results graphics :file
-RESULTS/Munera-revisions-PCA-expression-correlation-PC1vPC2.png :width
-1000 :height 800 :eval yes library(SeqRetriever) library(magrittr) genes
-&lt;- SeqDataframe(dir = "./RESULTS/Munera-revisions~normout~") %&gt;%
-SeqGenes(gene.names =c("GATA4","SATB2"))
-
-genes &lt;- as.data.frame(t(genes\[,2:ncol(genes)\]))
-genes\$colnames.pca.data &lt;- rownames(genes)
-
-genes\$GATA4 &lt;- scale(genes\$GATA4) genes\$SATB2 &lt;-
-scale(genes\$SATB2)
-
-scores\$colnames.pca.data &lt;- as.character(scores\$colnames.pca.data)
-scores.genes &lt;- dplyr::left~join~(scores, genes, by =
-"colnames.pca.data")
-
-dat &lt;- melt(scores.genes, measure.vars = c("GATA4", "SATB2"))
-
-library(ggplot2)
-
-\#\# modifications to theme1 theme2 &lt;- theme(legend.position =
-"bottom", legend.text `element_text(size ` 12), legend.title =
-element~blank~(), legend.background = element~rect~(fill = "white", size
-= 0.5, linetype = "dotted"), panel.grid.minor = element~blank~(),
-panel.grid.major = element~blank~(), panel.border = element~rect~(fill =
-NA, color = "black", size = 1))
-
-pc1.2 &lt;- qplot(x = PC1, y = PC2, data = scores) + theme1 + theme2 +
-scale~fillmanual~(values = color.set\[1:7\]) + geom~point~(shape =
-21,aes(fill = factor(group)), size = 8) + coord~fixed~(ratio = 1) + \#
-critical for accurate representation of axes in PCA xlab(paste("PC1
-(",percent(round(summary(pca)\$importance\[2,1\],4)),")", sep = "")) +
-ylab(paste("PC2
-(",percent(round(summary(pca)\$importance\[2,2\],4)),")", sep = ""))
-
-plot1 &lt;- ggplot(data = dat, aes(x = PC1, y = PC2)) + theme1 + theme2
-+ geom~point~(shape = 21, aes(fill = value), size = 8) +
-scale~fillgradient2~("Z- score",low="blue", high="red") +
-coord~fixed~(ratio = 1) + \# critical for accurate representation of
-axes in PCA facet~wrap~(\~ variable, ncol = 1, strip.position = "right")
-+ xlab(paste("PC1
-(",percent(round(summary(pca)\$importance\[2,1\],4)),")", sep = "")) +
-ylab(paste("PC2
-(",percent(round(summary(pca)\$importance\[2,2\],4)),")", sep = ""))
-
-library(gridExtra) plot &lt;- grid.arrange(pc1.2,plot1, ncol = 2)
-print(plot)
-
-\#+end~src~
-
-![](file:RESULTS/Munera-revisions-PCA-expression-correlation-PC1vPC2.png)
-
-\#+begin~src~ R :session **R** :exports both :results graphics :file
-RESULTS/Munera-revisions-PCA-expression-correlation-PC2vPC3.png :width
-1000 :height 1000 :eval yes \#\# modifications to theme1 theme2 &lt;-
-theme(legend.position = "bottom", legend.text `element_text(size ` 12),
-legend.title = element~blank~(), legend.background = element~rect~(fill
-= "white", size = 0.5, linetype = "dotted"), panel.grid.minor =
-element~blank~(), panel.grid.major = element~blank~(), panel.border =
-element~rect~(fill = NA, color = "black", size = 1))
-
-plot2 &lt;- ggplot(data = dat, aes(x = PC2, y = PC3)) + theme1 + theme2
-+ geom~point~(shape = 21, aes(fill = value), size = 8) +
-scale~fillgradient2~("Z- score",low="blue", high="red") +
-coord~fixed~(ratio = 1) + \# critical for accurate representation of
-axes in PCA facet~wrap~(\~ variable, ncol = 1, strip.position = "right")
-+ xlab(paste("PC2
-(",percent(round(summary(pca)\$importance\[2,2\],4)),")", sep = "")) +
-ylab(paste("PC3
-(",percent(round(summary(pca)\$importance\[2,3\],4)),")", sep = ""))
-
-pc2.3 &lt;- qplot(x = PC2, y = PC3, data = scores) + theme1 + theme2 +
-scale~fillmanual~(values = color.set\[1:7\]) + geom~point~(shape =
-21,aes(fill = factor(group)), size = 8) + coord~fixed~(ratio = 1) + \#
-critical for accurate representation of axes in PCA xlab(paste("PC2
-(",percent(round(summary(pca)\$importance\[2,2\],4)),")", sep = "")) +
-ylab(paste("PC3
-(",percent(round(summary(pca)\$importance\[2,3\],4)),")", sep = ""))
-
-library(gridExtra) plot &lt;- grid.arrange( pc2.3,plot2, ncol = 2)
-print(plot)
-
-\#+end~src~
-
-![](file:RESULTS/Munera-revisions-PCA-expression-correlation-PC2vPC3.png)
-
-\#+begin~src~ R :session **R** :exports both :results graphics :file
-RESULTS/Munera-revisions-PCA-expression-correlation-PC1vPC3.png :width
-1000 :height 1000 :eval yes \#\# modifications to theme1 theme2 &lt;-
-theme(legend.position = "bottom", legend.text `element_text(size ` 12),
-legend.title = element~blank~(), legend.background = element~rect~(fill
-= "white", size = 0.5, linetype = "dotted"), panel.grid.minor =
-element~blank~(), panel.grid.major = element~blank~(), panel.border =
-element~rect~(fill = NA, color = "black", size = 1))
-
-plot3 &lt;- ggplot(data = dat, aes(x = PC1, y = PC3)) + theme1 + theme2
-+ geom~point~(shape = 21, aes(fill = value), size = 8) +
-scale~fillgradient2~("Z- score",low="blue", high="red") +
-coord~fixed~(ratio = 1) + \# critical for accurate representation of
-axes in PCA facet~wrap~(\~ variable, ncol = 1, strip.position = "right")
-+ xlab(paste("PC1
-(",percent(round(summary(pca)\$importance\[2,1\],4)),")", sep = "")) +
-ylab(paste("PC3
-(",percent(round(summary(pca)\$importance\[2,3\],4)),")", sep = ""))
-
-pc1.3 &lt;- qplot(x = PC1, y = PC3, data = scores) + theme1 + theme2 +
-scale~fillmanual~(values = color.set\[1:7\]) + geom~point~(shape =
-21,aes(fill = factor(group)), size = 8) + coord~fixed~(ratio = 1) + \#
-critical for accurate representation of axes in PCA xlab(paste("PC1
-(",percent(round(summary(pca)\$importance\[2,1\],4)),")", sep = "")) +
-ylab(paste("PC3
-(",percent(round(summary(pca)\$importance\[2,3\],4)),")", sep = ""))
-
-library(gridExtra) plot &lt;- grid.arrange(pc1.3,plot3, ncol = 2)
-print(plot)
-
-\#+end~src~
-
-![](file:RESULTS/Munera-revisions-PCA-expression-correlation-PC1vPC3.png)
