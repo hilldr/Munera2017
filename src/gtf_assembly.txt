@@ -1,0 +1,16 @@
+
+../DATA/BAM/run1205_lane12_read1_indexD708-D501=NogginTXP9.fastq/transcripts.gtf
+../DATA/BAM/run1205_lane12_read1_indexD708-D503=NogginTXP5.fastq/transcripts.gtf
+../DATA/BAM/run1205_lane12_read1_indexD708-D504=NogginTXP4.fastq/transcripts.gtf
+../DATA/BAM/run1205_lane12_read1_indexD708-D505=NogginTXP3.fastq/transcripts.gtf
+../DATA/BAM/run1205_lane12_read1_indexD709-D502=5331BMPTXP.fastq/transcripts.gtf
+../DATA/BAM/run1205_lane12_read1_indexD709-D503=5330BMPTXP.fastq/transcripts.gtf
+../DATA/BAM/run1205_lane12_read1_indexD709-D507=4904BMPTXP.fastq/transcripts.gtf
+../DATA/BAM/ERR315344_merged/transcripts.gtf
+../DATA/BAM/ERR315381_merged/transcripts.gtf
+../DATA/BAM/ERR315409_merged/transcripts.gtf
+../DATA/BAM/ERR315442_merged/transcripts.gtf
+../DATA/BAM/ERR315461_merged/transcripts.gtf
+../DATA/BAM/ERR315348_merged/transcripts.gtf
+../DATA/BAM/ERR315357_merged/transcripts.gtf
+../DATA/BAM/ERR315484_merged/transcripts.gtf
