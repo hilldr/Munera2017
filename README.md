@@ -1,3 +1,7 @@
+Manipulation of a conserved BMP-HOX pathway promotes formation of human large intestinal organoids.
+
+Jorge O. Múnera<sup>1</sup>, Nambirajan Sundaram<sup>2</sup>, Carey Watson<sup>2</sup>, Scott A. Rankin<sup>1</sup>, Maxime Mahe<sup>2</sup>, Jefferson E. Vallance<sup>3</sup>, Noah F. Shroyer<sup>3</sup>, Katie L. Sinagoga<sup>1</sup>, Adrian Zarsozo-Lacoste<sup>1</sup>, Jonathan R. Hudson<sup>1</sup>, Jonathan C. Howell<sup>5</sup>, David Hill<sup>6</sup>, Praneet Chatuvedi<sup>1</sup>, Jason R. Spence<sup>6</sup>, John M. Shannon<sup>4</sup>, Aaron M. Zorn<sup>1</sup>, Michael Helmrath<sup>2</sup> and James M. Wells<sup>1,5*</sup>. 
+
 Divisions of 1 Developmental Biology, 2 Surgery, 3 Gastroenterology, 4
 Pulmonary Biology and 5 Endocrinology. Cincinnati Children’s Hospital
 Research Foundation, Cincinnati, OH 45229. 6 University of Michigan, Ann
