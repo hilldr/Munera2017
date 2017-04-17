@@ -167,7 +167,7 @@ fig1c <- qplot(x = PC1, y = PC2, data = scores) +
 print(fig1c)
 ```
 
-![](file:./RESULTS/PCA-Praneet.png)
+[](file:./RESULTS/PCA-Praneet.png)
 
 Figure 7
 --------
